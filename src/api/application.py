@@ -3,8 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import UJSONResponse
 from prometheus_fastapi_instrumentator import Instrumentator
 
-from src.api import health
-from src.api.lifetime import register_shutdown_event, register_startup_event
+from src.api import health, lifespan
 from src.api.router import api_router
 from src.logging import configure_logging
 from src.settings import settings
@@ -26,11 +25,8 @@ def get_app() -> FastAPI:
         redoc_url="/api/redoc",
         openapi_url="/api/openapi.json",
         default_response_class=UJSONResponse,
+        lifespan=lifespan.lifespan
     )
-
-    # Adds startup and shutdown events.
-    register_startup_event(app)
-    register_shutdown_event(app)
 
     # Main router for the API.
     app.include_router(router=api_router, prefix="/api")
