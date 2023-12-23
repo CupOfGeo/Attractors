@@ -8,4 +8,13 @@ It going to make me pretty pictures and server as a good test service for other 
 
 going to learn to use the .devcontainers
 
-so im now in a clean 3.12 dev container :) I have a bash terminal
+so im now in a clean 3.11 dev container :) I have a bash terminal
+
+Cool so i updated my pre-commit hooks as well
+
+Im running without a vevn bc im already in a clean room
+
+
+# Issues
+termial auto complete
+Maybe brew
