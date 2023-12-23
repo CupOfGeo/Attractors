@@ -18,5 +18,10 @@ Im running without a vevn bc im already in a clean room
 # Issues
 - Termial auto complete
 - Can't build or run Dockerfile in the container.
+possibly I could pass the local machines docker into the container
+```bash
+ls -la /var/run/docker.sock
+docker run -v /var/run/docker.sock:/var/run/docker.sock -it your-dev-container-image
+```
 
 Maybe brew
