@@ -16,5 +16,7 @@ Im running without a vevn bc im already in a clean room
 
 
 # Issues
-termial auto complete
+- Termial auto complete
+- Can't build or run Dockerfile in the container.
+
 Maybe brew
