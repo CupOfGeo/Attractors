@@ -1,7 +1,6 @@
 # As said in the README.md, these equations are not mine, most of this project is copy pasted from
 # https://examples.holoviz.org/attractors/attractors.html
 # and they took it from - https://paulbourke.net/fractals/
-import enum
 from math import cos, fabs, sin, sqrt
 
 import numpy as np
@@ -55,9 +54,24 @@ def Hopalong2(x, y, a, b, c, *o):
     return y - 1.0 - sqrt(fabs(b * x - 1.0 - c)) * np.sign(x - 1.0), a - x - 1.0
 
 
-class AttractorFunctions(str, enum.Enum):
-    """Possible attractor functions"""
+# class AttractorFunctions(Enum):
+#     """Possible attractor functions"""
 
-    CLIFFORD = Clifford
-    HOPALONG1 = Hopalong1
-    DE_JONG = De_Jong
+#     CLIFFORD = Clifford
+#     DE_JONG = De_Jong
+#     SVENSSON = Svensson
+
+#     HOPALONG1 = Hopalong1
+
+# A dict is better because i need a mapping from a string to a function
+# i could make it immutable but thats overkill for now
+ATTRACTOR_FUNCTIONS = {
+    "Clifford": Clifford,
+    "De Jong": De_Jong,
+    "Svensson": Svensson,
+    "Bedhead": Bedhead,
+    "Fractal Dream": Fractal_Dream,
+    "Hopalong": Hopalong1,
+    "Hopalong1": Hopalong1,
+    "Hopalong2": Hopalong2,
+}

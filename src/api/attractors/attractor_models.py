@@ -71,9 +71,14 @@ class ColorMap(str, enum.Enum):
 #  'rainbow_bgyrm_35_85_c71'
 
 
+class InitialConditionsRequest(BaseModel):
+    function: str = "Clifford"  # default value
+    percent_empty: float = 0.0
+
+
 class AttractorRequestModel(BaseModel):
     initial_conditions: List[float]
-    color_map: ColorMap
+    color_map: str = "fire"  # ColorMap
     # iterations: int = 10000000
     function: str = "Clifford"
 

@@ -5,30 +5,47 @@ from io import BytesIO
 from typing import List
 
 from aiocache import caches
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 from loguru import logger
 
-from src.api.attractors.attractor_models import AttractorRequestModel
-from src.api.attractors.AttractorService import AttractorService
-from src.api.attractors.cliff_attractor import make_dataframe, make_gif_from_df
+from src.api.attractors.attractor_functions import ATTRACTOR_FUNCTIONS
+from src.api.attractors.attractor_models import (
+    AttractorRequestModel,
+    InitialConditionsRequest,
+)
+from src.api.attractors.attractor_service import AttractorService
 
 router = APIRouter()
+attractor_service = AttractorService()
 
 
-@router.get("/inital-conditions")
-async def get_inital_conditions() -> List[float]:
+@router.post("/inital-conditions")
+async def make_inital_conditions(request: InitialConditionsRequest) -> List[float]:
     """Return a list of inital conditions."""
-    return AttractorService().gen_random()
+    # request.percent_empty # forget for now
+    if ATTRACTOR_FUNCTIONS[request.function] is None:
+        raise HTTPException(
+            status_code=400, detail=f"Invalid function name: {request.function}"
+        )
+    logger.info(f"request.function: {request.function}")
+    return attractor_service.gen_random(ATTRACTOR_FUNCTIONS[request.function])
 
 
 @router.post("/make-gif")
 async def make_gif(request: AttractorRequestModel) -> Response:
     """Make GIF."""
+    logger.info(f"request: {request}")
+    if ATTRACTOR_FUNCTIONS[request.function] is None:
+        raise HTTPException(
+            status_code=400, detail=f"Invalid function name: {request.function}"
+        )
 
     # Hash the initial_conditions to use as a cache key
-    key = hashlib.md5(str(request.initial_conditions).encode()).hexdigest()
-    logger.info(f"Data: {request.initial_conditions} \n Key: {key}")
+    key = hashlib.md5(
+        (str(request.initial_conditions) + request.function).encode()
+    ).hexdigest()
+    logger.info(f"Key: {key}")
     cache = caches.get("default")
 
     result = await cache.get(key)
@@ -37,10 +54,12 @@ async def make_gif(request: AttractorRequestModel) -> Response:
         with gzip.GzipFile(fileobj=BytesIO(result)) as f:
             result = pickle.load(f)
 
-    logger.info(f"Result: {result}")
     if result is None:
         # If not in cache, perform the computation
-        result = make_dataframe(request.initial_conditions)
+        result = attractor_service.make_dataframe(
+            inital_conditions=request.initial_conditions,
+            function=ATTRACTOR_FUNCTIONS[request.function],
+        )
         # Serialize and compress the DataFrame, and store it in the cache
         with BytesIO() as f:
             with gzip.GzipFile(fileobj=f, mode="w") as gz:
@@ -49,5 +68,5 @@ async def make_gif(request: AttractorRequestModel) -> Response:
 
         logger.info(f"Set cache Key: {key} to Result: {result}")
 
-    gif_bytes = make_gif_from_df(result, cmap=request.color_map)
+    gif_bytes = attractor_service.make_gif_from_df(result, request.color_map)
     return Response(content=gif_bytes.getvalue(), media_type="image/gif")
