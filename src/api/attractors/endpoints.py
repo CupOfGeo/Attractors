@@ -12,12 +12,19 @@ from loguru import logger
 from src.api.attractors.attractor_functions import ATTRACTOR_FUNCTIONS
 from src.api.attractors.attractor_models import (
     AttractorRequestModel,
+    ColorMap,
     InitialConditionsRequest,
 )
 from src.api.attractors.attractor_service import AttractorService
 
 router = APIRouter()
 attractor_service = AttractorService()
+
+
+@router.get("/list-colors")
+async def list_colors() -> List[str]:
+    """Return a list of color maps."""
+    return list(ColorMap.keys())
 
 
 @router.post("/inital-conditions")
@@ -66,7 +73,7 @@ async def make_gif(request: AttractorRequestModel) -> Response:
                 pickle.dump(result, gz)
             await cache.set(key, f.getvalue())
 
-        logger.info(f"Set cache Key: {key} to Result: {result}")
+        logger.info(f"Set cache Key: {key}")
 
     gif_bytes = attractor_service.make_gif_from_df(result, request.color_map)
     return Response(content=gif_bytes.getvalue(), media_type="image/gif")

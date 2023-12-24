@@ -7,9 +7,13 @@ import numpy as np
 import pandas as pd
 from colorcet import palette
 from datashader import transfer_functions as tf
+from datashader.colors import inferno, viridis
 from loguru import logger
 from numba import jit
 from pandas import DataFrame
+
+palette["viridis"] = viridis
+palette["inferno"] = inferno
 
 
 @jit(nopython=True)
