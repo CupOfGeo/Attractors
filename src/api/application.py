@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import UJSONResponse
+from fastapi.responses import ORJSONResponse
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from src.api import health, lifespan
@@ -19,12 +19,12 @@ def get_app() -> FastAPI:
     """
     configure_logging()
     app = FastAPI(
-        title="CRUD-FastAPI",
+        title="Attractors API",
         version="0.0.1",
         docs_url="/",
         redoc_url="/api/redoc",
         openapi_url="/api/openapi.json",
-        default_response_class=UJSONResponse,
+        default_response_class=ORJSONResponse,
         lifespan=lifespan.lifespan
     )
 
