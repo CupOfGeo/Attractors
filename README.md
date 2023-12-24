@@ -1,10 +1,9 @@
 # Attractors take 3
-
-
 Hey so a long time ago i found this https://examples.holoviz.org/attractors/attractors.html project and thought it looked really cool so i played around with it and wanted to turn it into a rest api.
 
-It going to make me pretty pictures and server as a good test service for other things.
+It was a super cool demo learned about jit and datashaders
 
+It going to make me pretty pictures and the server will be a good test service for other things.
 
 going to learn to use the .devcontainers
 
@@ -33,7 +32,9 @@ pip install aioredis
 ```
 
 Redis is cool but its overkill I can just use `from cachetools import TTLCache`
+No thats not async enough im going to use `from aiocache import caches`
 
+Im now seeing in jit that it can do caching. But that wouldnt be helpful as my function does one iteration at a time and i just cache the resulting 10000000 iterations with the intial conditions. I also compres it with gzip so which is nice too.
 
 
 # Issues
@@ -54,4 +55,4 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock -it your-dev-container-i
     # i had to also add my_network to the build args of this in devcontainer.json
     ```
 
-- Brew 🍺
+- Brew 🍺 would be nice

@@ -1,20 +1,17 @@
 import gzip
 import hashlib
 import pickle
-import time
 from io import BytesIO
 from typing import List
 
 from aiocache import caches
 from fastapi import APIRouter
-from fastapi.responses import FileResponse
+from fastapi.responses import Response
 from loguru import logger
 
-from src.api.attractors.attractor_models import AttractorRequestModel
 from src.api.attractors.cliff_attractor import (
     gen_random,
     make_dataframe,
-    make_gif,
     make_gif_from_df,
 )
 
@@ -25,19 +22,6 @@ router = APIRouter()
 async def get_inital_conditions() -> List[float]:
     """Return a list of inital conditions."""
     return gen_random()
-
-
-@router.post("/generate-attractor-gif")
-async def random_gif(req: AttractorRequestModel) -> FileResponse:
-    """Return an attractor GIF."""
-    make_gif(req.initial_conditions, req.color_map)
-    return FileResponse("content/flip_gif_temp.gif", media_type="image/gif")
-
-
-async def compute_result(data: List[float]) -> str:
-    """Compute a result."""
-    time.sleep(7)
-    return str(sum(data))
 
 
 @router.post("/make-gif-cache")
@@ -70,5 +54,5 @@ async def get_my_key(
 
         logger.info(f"Set cache Key: {key} to Result: {result}")
 
-    make_gif_from_df(result, cmap=cmap)
-    return FileResponse("content/flip_gif_temp.gif", media_type="image/gif")
+    gif_bytes = make_gif_from_df(result, cmap=cmap)
+    return Response(content=gif_bytes.getvalue(), media_type="image/gif")

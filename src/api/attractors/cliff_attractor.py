@@ -1,4 +1,5 @@
 import sys
+from io import BytesIO
 
 import datashader as ds
 import numpy as np
@@ -59,7 +60,6 @@ def gen_random(func=Clifford, desired_empty=10000):
 
 def make_dataframe(vals, n=n, cmap='inferno', label=True):
     """Return a Datashader image by collecting `n` trajectory points for the given attractor `fn`"""
-    n = 4000000
     ("{}, " * (len(vals) - 1) + " {}").format(*vals) if label else None
     # print(lab)
     df = trajectory(Clifford, *vals, n)
@@ -87,18 +87,17 @@ def to_ds(df: DataFrame, cmap='inferno'):
     return imgs
 
 
-def make_gif_from_df(df: DataFrame, cmap='inferno'):
+def make_gif_from_df(df: DataFrame, cmap='inferno') -> BytesIO:
     imgs = to_ds(df, cmap=cmap)
     for i in range(len(imgs)):
         imgs[i] = imgs[i].to_pil()
-    fp_out = "content/flip_gif_temp.gif"
+    fp_out = BytesIO()
     imgs[0].save(fp=fp_out, format='GIF', append_images=imgs, save_all=True, duration=300, loop=1)
-    return None
+    return fp_out
 
 
 def myplot(fn, vals, n=n, cmap='inferno', label=True):
     """Return a Datashader image by collecting `n` trajectory points for the given attractor `fn`"""
-    n = 4000000
     imgs = []
     lab = ("{}, " * (len(vals) - 1) + " {}").format(*vals) if label else None
     # print(lab)
@@ -127,6 +126,7 @@ def make_gif(initial_conditions, cmap='inferno'):
     imgs = myplot(Clifford, initial_conditions, cmap=cmap)
     for i in range(len(imgs)):
         imgs[i] = imgs[i].to_pil()
-    fp_out = "content/flip_gif_temp.gif"
+    # fp_out = "content/flip_gif_temp.gif"
+    fp_out = BytesIO()
     imgs[0].save(fp=fp_out, format='GIF', append_images=imgs, save_all=True, duration=300, loop=1)
-    return initial_conditions
+    return fp_out
