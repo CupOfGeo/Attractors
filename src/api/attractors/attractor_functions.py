@@ -54,14 +54,43 @@ def Hopalong2(x, y, a, b, c, *o):
     return y - 1.0 - sqrt(fabs(b * x - 1.0 - c)) * np.sign(x - 1.0), a - x - 1.0
 
 
-# class AttractorFunctions(Enum):
-#     """Possible attractor functions"""
+@jit(nopython=True)
+def G(x, mu):
+    """
+    From I. Gumowski and C. Mira http://kgdawiec.bplaced.net/badania/pdf/cacs_2010.pdf,
+    with code and parameters from Jason Rampe https://softologyblog.wordpress.com/2017/03/04/2d-strange-attractors and
+    Lazaro Alonso https://lazarusa.github.io/Webpage/codepython2.html
+    """
+    return mu * x + 2 * (1 - mu) * x**2 / (1.0 + x**2)
 
-#     CLIFFORD = Clifford
-#     DE_JONG = De_Jong
-#     SVENSSON = Svensson
 
-#     HOPALONG1 = Hopalong1
+@jit(nopython=True)
+def Gumowski_Mira(x, y, a, b, mu, *o):
+    xn = y + a * (1 - b * y**2) * y + G(x, mu)
+    yn = -x + G(xn, mu)
+    return xn, yn
+
+
+@jit(nopython=True)
+def Symmetric_Icon(x, y, a, b, g, om, r, d, *o):
+    """The Hopalong and Gumowski-Mira equations often result in symmetric patterns,
+    but a different approach is to *force* the patterns to be symmetric, which is often pleasing.
+    Examples from “Symmetry in Chaos” by Michael Field and Martin Golubitsky,
+    with code and parameters from Jason Rampe https://softologyblog.wordpress.com/2017/03/04/2d-strange-attractor):
+    """
+    zzbar = x * x + y * y
+    p = a * zzbar + r
+    zreal, zimag = x, y
+
+    for i in range(1, d - 1):
+        za, zb = zreal * x - zimag * y, zimag * x + zreal * y
+        zreal, zimag = za, zb
+
+    zn = x * zreal - y * zimag
+    p += b * zn
+
+    return p * x + g * zreal - om * y, p * y - g * zimag + om * x
+
 
 # A dict is better because i need a mapping from a string to a function
 # i could make it immutable but thats overkill for now
@@ -72,6 +101,7 @@ ATTRACTOR_FUNCTIONS = {
     "Bedhead": Bedhead,
     "Fractal Dream": Fractal_Dream,
     "Hopalong": Hopalong1,
-    "Hopalong1": Hopalong1,
     "Hopalong2": Hopalong2,
+    "Gumowski Mira": Gumowski_Mira,
+    "Symmetric Icon": Symmetric_Icon,
 }

@@ -53,7 +53,8 @@ class AttractorService:
     def make_dataframe(
         self, inital_conditions: List[float], function: Callable, label=True
     ):
-        """Return a Datashader image by collecting `n` trajectory points for the given attractor `fn`"""
+        """Return a Dataframe of the trajectory of the function.
+        This is the data that will be turned into a datashader image."""
         lab = (
             ("{}, " * (len(inital_conditions) - 1) + " {}").format(*inital_conditions)
             if label
