@@ -31,9 +31,9 @@ def get_app() -> FastAPI:
     # Main router for the API.
     app.include_router(router=api_router, prefix="/api")
     # Health endpoint
-    app.include_router(router=health.router, prefix="/manage", tags=["health"])
+    app.include_router(router=health.router, prefix="/manage", tags=["manage"])
     # prometheus
-    Instrumentator().instrument(app).expose(app, endpoint='/manage/prometheus')
+    Instrumentator().instrument(app).expose(app, endpoint='/manage/prometheus', tags=["manage"])
 
     # Adding CORS Middleware to the FastAPI application.
     # This middleware allows cross-origin requests from specified origins.

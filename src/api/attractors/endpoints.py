@@ -9,6 +9,7 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 from loguru import logger
 
+from src.api.attractors.attractor_models import AttractorRequestModel
 from src.api.attractors.cliff_attractor import (
     gen_random,
     make_dataframe,
@@ -24,16 +25,15 @@ async def get_inital_conditions() -> List[float]:
     return gen_random()
 
 
-@router.post("/make-gif-cache")
-async def get_my_key(
-    data: List[float],
-    cmap: str = "fire",
-) -> str:
-    """Return my key."""
+@router.post("/make-gif")
+async def make_gif(
+    request: AttractorRequestModel
+) -> Response:
+    """Make GIF."""
 
-    # Hash the data to use as a cache key
-    key = hashlib.md5(str(data).encode()).hexdigest()
-    logger.info(f"Data: {data} \n Key: {key}")
+    # Hash the initial_conditions to use as a cache key
+    key = hashlib.md5(str(request.initial_conditions).encode()).hexdigest()
+    logger.info(f"Data: {request.initial_conditions} \n Key: {key}")
     cache = caches.get('default')
 
     result = await cache.get(key)
@@ -45,7 +45,7 @@ async def get_my_key(
     logger.info(f"Result: {result}")
     if result is None:
         # If not in cache, perform the computation
-        result = make_dataframe(data)
+        result = make_dataframe(request.initial_conditions)
         # Serialize and compress the DataFrame, and store it in the cache
         with BytesIO() as f:
             with gzip.GzipFile(fileobj=f, mode='w') as gz:
@@ -54,5 +54,5 @@ async def get_my_key(
 
         logger.info(f"Set cache Key: {key} to Result: {result}")
 
-    gif_bytes = make_gif_from_df(result, cmap=cmap)
+    gif_bytes = make_gif_from_df(result, cmap=request.color_map)
     return Response(content=gif_bytes.getvalue(), media_type="image/gif")

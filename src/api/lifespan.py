@@ -4,8 +4,6 @@ from aiocache import caches
 from fastapi import FastAPI
 from loguru import logger
 
-# from src.api.redis import get_redis_pool
-
 
 @asynccontextmanager
 async def lifespan(application: FastAPI):
