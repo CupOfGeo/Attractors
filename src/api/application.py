@@ -25,7 +25,7 @@ def get_app() -> FastAPI:
         redoc_url="/api/redoc",
         openapi_url="/api/openapi.json",
         default_response_class=ORJSONResponse,
-        lifespan=lifespan.lifespan
+        lifespan=lifespan.lifespan,
     )
 
     # Main router for the API.
@@ -33,7 +33,9 @@ def get_app() -> FastAPI:
     # Health endpoint
     app.include_router(router=health.router, prefix="/manage", tags=["manage"])
     # prometheus
-    Instrumentator().instrument(app).expose(app, endpoint='/manage/prometheus', tags=["manage"])
+    Instrumentator().instrument(app).expose(
+        app, endpoint="/manage/prometheus", tags=["manage"]
+    )
 
     # Adding CORS Middleware to the FastAPI application.
     # This middleware allows cross-origin requests from specified origins.

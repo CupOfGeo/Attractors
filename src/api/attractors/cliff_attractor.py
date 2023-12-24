@@ -38,7 +38,7 @@ def init_plot(fn, vals, n=n):
     # values_label = ("{}, "*(len(vals)-1)+" {}").format(*vals) if label else None
     df = trajectory(fn, *vals, n=n)
     cvs = ds.Canvas(plot_width=500, plot_height=500)
-    agg = cvs.points(df, 'x', 'y')
+    agg = cvs.points(df, "x", "y")
     return agg
 
 
@@ -54,7 +54,7 @@ def gen_random(func=Clifford, desired_empty=10000):
     return rvals[0]
 
 
-def make_dataframe(vals, n=n, cmap='inferno', label=True):
+def make_dataframe(vals, n=n, cmap="inferno", label=True):
     """Return a Datashader image by collecting `n` trajectory points for the given attractor `fn`"""
     ("{}, " * (len(vals) - 1) + " {}").format(*vals) if label else None
     # print(lab)
@@ -62,12 +62,12 @@ def make_dataframe(vals, n=n, cmap='inferno', label=True):
     return df
 
 
-def to_ds(df: DataFrame, cmap='inferno'):
+def to_ds(df: DataFrame, cmap="inferno"):
     imgs = []
     cvs = ds.Canvas(plot_width=500, plot_height=500)
     # we dont want every point plotted to be a frame so this makes 45 frames between 200 and n
     for i in np.geomspace(200, n, 45).astype(int):
-        agg = cvs.points(df[:i], 'x', 'y')
+        agg = cvs.points(df[:i], "x", "y")
         color_map = palette[cmap]
         imgs.append(tf.shade(agg, cmap=color_map))
         # palette[color_map]
@@ -79,20 +79,22 @@ def to_ds(df: DataFrame, cmap='inferno'):
     imgs.append(imgs[-1])
     imgs.append(imgs[-1])
     print(len(df))
-    print('df size', sys.getsizeof(df))
+    print("df size", sys.getsizeof(df))
     return imgs
 
 
-def make_gif_from_df(df: DataFrame, cmap='inferno') -> BytesIO:
+def make_gif_from_df(df: DataFrame, cmap="inferno") -> BytesIO:
     imgs = to_ds(df, cmap=cmap)
     for i in range(len(imgs)):
         imgs[i] = imgs[i].to_pil()
     fp_out = BytesIO()
-    imgs[0].save(fp=fp_out, format='GIF', append_images=imgs, save_all=True, duration=300, loop=1)
+    imgs[0].save(
+        fp=fp_out, format="GIF", append_images=imgs, save_all=True, duration=300, loop=1
+    )
     return fp_out
 
 
-def myplot(fn, vals, n=n, cmap='inferno', label=True):
+def myplot(fn, vals, n=n, cmap="inferno", label=True):
     """Return a Datashader image by collecting `n` trajectory points for the given attractor `fn`"""
     imgs = []
     lab = ("{}, " * (len(vals) - 1) + " {}").format(*vals) if label else None
@@ -101,7 +103,7 @@ def myplot(fn, vals, n=n, cmap='inferno', label=True):
     cvs = ds.Canvas(plot_width=500, plot_height=500)
     # we dont want every point plotted to be a frame so this makes 45 frames between 200 and n
     for i in np.geomspace(200, n, 45).astype(int):
-        agg = cvs.points(df[:i], 'x', 'y')
+        agg = cvs.points(df[:i], "x", "y")
         color_map = palette[cmap]
         imgs.append(tf.shade(agg, cmap=color_map, name=lab))
         # palette[color_map]
@@ -113,16 +115,18 @@ def myplot(fn, vals, n=n, cmap='inferno', label=True):
     imgs.append(imgs[-1])
     imgs.append(imgs[-1])
     print(len(df))
-    print('df size', sys.getsizeof(df))
+    print("df size", sys.getsizeof(df))
     return imgs
 
 
-def make_gif(initial_conditions, cmap='inferno'):
+def make_gif(initial_conditions, cmap="inferno"):
     # initial_conditions = gen_random()
     imgs = myplot(Clifford, initial_conditions, cmap=cmap)
     for i in range(len(imgs)):
         imgs[i] = imgs[i].to_pil()
     # fp_out = "content/flip_gif_temp.gif"
     fp_out = BytesIO()
-    imgs[0].save(fp=fp_out, format='GIF', append_images=imgs, save_all=True, duration=300, loop=1)
+    imgs[0].save(
+        fp=fp_out, format="GIF", append_images=imgs, save_all=True, duration=300, loop=1
+    )
     return fp_out

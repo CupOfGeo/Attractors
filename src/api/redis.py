@@ -10,12 +10,13 @@ async def get_redis_pool() -> aioredis.Redis:
 
 async def test_redis_connection():
     pool = await get_redis_pool()
-    await pool.set('test_key', 'test_value')
-    value = await pool.get('test_key')
-    if value == 'test_value':
+    await pool.set("test_key", "test_value")
+    value = await pool.get("test_key")
+    if value == "test_value":
         print("Redis connection is working fine.")
     else:
         print("Failed to connect to Redis.")
+
 
 # Run the test
 asyncio.run(test_redis_connection())

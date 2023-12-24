@@ -11,6 +11,7 @@ def health_check() -> None:
     It returns 200 if the project is healthy.
     """
 
+
 # @router.get("/")
 # async def root(request: Request):
 #     return {"secret": request.app.state.super_secret}
