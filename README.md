@@ -20,7 +20,7 @@ Idea to add some sort of caching for the attractors so if i want to recolor it i
 ```bash
 docker pull redis
 # -p and --name must come before -d
-docker run -p 6379 --name my-redis -d redis
+docker run -p 6379:6379 --name my-redis -d redis
 docker exec -it my-redis redis-cli
 
 set mykey "hello redis"
@@ -32,6 +32,7 @@ pip install redis
 pip install aioredis
 ```
 
+Redis is cool but its overkill I can just use `from cachetools import TTLCache`
 
 
 
@@ -44,4 +45,13 @@ ls -la /var/run/docker.sock
 docker run -v /var/run/docker.sock:/var/run/docker.sock -it your-dev-container-image
 ```
 
-Maybe brew
+- I'm running redis on port 6379 but i cant connect to it bc im in a container
+    - ok so i had to do this
+    ```bash
+    docker network create my_network
+    # re run a new redis instance with the --network
+    docker run --name my_redis_container --network my_network -p 6379:6379 -d redis
+    # i had to also add my_network to the build args of this in devcontainer.json
+    ```
+
+- Brew 🍺

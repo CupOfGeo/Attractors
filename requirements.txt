@@ -1,5 +1,8 @@
+aiocache==0.12.2
+aioredis==2.0.1
 annotated-types==0.6.0
 anyio==3.7.1
+async-timeout==4.0.3
 certifi==2023.11.17
 cfgv==3.4.0
 charset-normalizer==3.3.2
@@ -23,6 +26,7 @@ multipledispatch==1.0.0
 nodeenv==1.8.0
 numba==0.58.1
 numpy==1.26.2
+orjson==3.9.10
 packaging==23.2
 pandas==2.1.4
 param==2.0.1
@@ -41,6 +45,7 @@ python-dotenv==1.0.0
 python-multipart==0.0.6
 pytz==2023.3.post1
 PyYAML==6.0.1
+redis==5.0.1
 requests==2.31.0
 scipy==1.11.4
 six==1.16.0
