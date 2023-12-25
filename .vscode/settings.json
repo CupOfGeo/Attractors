@@ -1,0 +1,17 @@
+{
+    "cSpell.words": [
+        "aiocache",
+        "aioredis",
+        "autoflake",
+        "cachetools",
+        "dataframe",
+        "datashaders",
+        "devcontainer",
+        "isort",
+        "loguru",
+        "mypy",
+        "nopython",
+        "noqa",
+        "numba"
+    ]
+}

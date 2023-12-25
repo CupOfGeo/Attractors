@@ -84,5 +84,5 @@ class AttractorRequestModel(BaseModel):
 
 
 class AttractorResponseModel(BaseModel):
-    # fileResponse: Response  # -- this crashs the whole thing i guess you cant put fileResponse in a pydantic Model
-    inital_conditions: List[float]
+    # fileResponse: Response  # -- this crashes the whole thing i guess you cant put fileResponse in a pydantic Model
+    initial_conditions: List[float]

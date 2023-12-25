@@ -34,34 +34,34 @@ class AttractorService:
         return pd.DataFrame(dict(x=x, y=y))
 
     def gen_random(self, func, desired_empty=10000):
-        # finds some nice inital conditions
+        # finds some nice  initial conditions
         non_empty = 0
         # how many non empty pixels
         while non_empty < desired_empty:
-            inital_conditions = np.c_[
+            initial_conditions = np.c_[
                 np.zeros((1, 2)), np.random.random((1, 6)) * 4 - 2
             ][0]
-            logger.info(f"inital_conditions: {inital_conditions}")
-            # small n for quick generations of inital conditions
-            df = self.trajectory(func, *inital_conditions, n=20000)
+            logger.info(f"initial_conditions: {initial_conditions}")
+            # small n for quick generations of  initial conditions
+            df = self.trajectory(func, *initial_conditions, n=20000)
             cvs = ds.Canvas(plot_width=500, plot_height=500)
             agg = cvs.points(df, "x", "y")
             non_empty = np.count_nonzero(np.array(agg))
             logger.info(f"non_empty: {non_empty}")
-        return inital_conditions
+        return initial_conditions
 
     def make_dataframe(
-        self, inital_conditions: List[float], function: Callable, label=True
+        self, initial_conditions: List[float], function: Callable, label=True
     ):
         """Return a Dataframe of the trajectory of the function.
         This is the data that will be turned into a datashader image."""
         lab = (
-            ("{}, " * (len(inital_conditions) - 1) + " {}").format(*inital_conditions)
+            ("{}, " * (len(initial_conditions) - 1) + " {}").format(*initial_conditions)
             if label
             else None
         )
         logger.info(f"label: {lab}")
-        df = self.trajectory(function, *inital_conditions, n=self.n)  # type: ignore
+        df = self.trajectory(function, *initial_conditions, n=self.n)  # type: ignore
         return df
 
     def df_to_imgs(self, df: DataFrame, cmap: str):

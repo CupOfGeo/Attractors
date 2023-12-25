@@ -12,7 +12,6 @@ from loguru import logger
 from src.api.attractors.attractor_functions import ATTRACTOR_FUNCTIONS
 from src.api.attractors.attractor_models import (
     AttractorRequestModel,
-    ColorMap,
     InitialConditionsRequest,
 )
 from src.api.attractors.attractor_service import AttractorService
@@ -24,12 +23,18 @@ attractor_service = AttractorService()
 @router.get("/list-colors")
 async def list_colors() -> List[str]:
     """Return a list of color maps."""
-    return list(ColorMap.keys())
+    return ["TO", "DO"]
 
 
-@router.post("/inital-conditions")
-async def make_inital_conditions(request: InitialConditionsRequest) -> List[float]:
-    """Return a list of inital conditions."""
+@router.get("/list-functions")
+async def list_functions() -> List[str]:
+    """Return a list of functions."""
+    return list(ATTRACTOR_FUNCTIONS.keys())
+
+
+@router.post("/initial-conditions")
+async def make_initial_conditions(request: InitialConditionsRequest) -> List[float]:
+    """Return a list of  initial conditions."""
     # request.percent_empty # forget for now
     if ATTRACTOR_FUNCTIONS[request.function] is None:
         raise HTTPException(
@@ -64,7 +69,7 @@ async def make_gif(request: AttractorRequestModel) -> Response:
     if result is None:
         # If not in cache, perform the computation
         result = attractor_service.make_dataframe(
-            inital_conditions=request.initial_conditions,
+            initial_conditions=request.initial_conditions,
             function=ATTRACTOR_FUNCTIONS[request.function],
         )
         # Serialize and compress the DataFrame, and store it in the cache

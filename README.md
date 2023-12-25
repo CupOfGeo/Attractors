@@ -11,10 +11,10 @@ so im now in a clean 3.11 dev container :) I have a bash terminal
 
 Cool so i updated my pre-commit hooks as well
 
-Im running without a vevn bc im already in a clean room
+Im running without a venv bc im already in a clean room
 
 # Redis
-Idea to add some sort of caching for the attractors so if i want to recolor it i can pull the inital conditions from a chache
+Idea to add some sort of caching for the attractors so if i want to recolor it i can pull the initial conditions from a cache
 
 ```bash
 docker pull redis
@@ -22,8 +22,8 @@ docker pull redis
 docker run -p 6379:6379 --name my-redis -d redis
 docker exec -it my-redis redis-cli
 
-set mykey "hello redis"
-get mykey
+set my-key "hello redis"
+get my-key
 ```
 
 ```bash
@@ -34,11 +34,25 @@ pip install aioredis
 Redis is cool but its overkill I can just use `from cachetools import TTLCache`
 No thats not async enough im going to use `from aiocache import caches`
 
-Im now seeing in jit that it can do caching. But that wouldnt be helpful as my function does one iteration at a time and i just cache the resulting 10000000 iterations with the intial conditions. I also compres it with gzip so which is nice too.
+Im now seeing in jit that it can do caching. But that wouldn't be helpful as my function does one iteration at a time and i just cache the resulting 10000000 iterations with the initial conditions. I also compress it with gzip so which is nice too.
 
+# Deploying
+- I created a new GCP project geo-attractors.
+- I enabled `Cloud Run Admin API has been enabled` by going to it and clicking create service
+- Maybe i want it in Kubernetes :thinking: just with the prometheus and grafana. (maybe redis)
+- Maybe i first get it in cloud run to show people then bring it to gke
+
+- starting with cloud run made some terraform and some startup scripts
+had to send it to gcloud to build 1. on the m1 mac the build is strange and 2. can't build in the docker container
+`gcloud builds submit --tag "us-central1-docker.pkg.dev/geo-attractors/attractors/attractors-fastapi`
+this will be solved when its just automatic with the ci/cd pipeline thats totally coming soon
+
+
+- wow that was kinda super easy like i did it in under an hour service account artifact registry public cloud run and all (thanks copilot <3)
 
 # Issues
-- Termial auto complete
+- Learn how to write tests
+- Terminal auto complete
 - Can't build or run Dockerfile in the container.
 possibly I could pass the local machines docker into the container
 ```bash
@@ -56,3 +70,11 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock -it your-dev-container-i
     ```
 
 - Brew 🍺 would be nice
+- super strange git issue
+```
+git add src/
+fatal: detected dubious ownership in repository at '/workspaces/attractorsIII'
+To add an exception for this directory, call:
+
+        git config --global --add safe.directory /workspaces/attractorsIII
+```
