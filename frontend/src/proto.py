@@ -16,6 +16,7 @@ this is the np.geospace
 import base64
 
 import dash
+import dash_bootstrap_components as dbc
 import requests
 from client_mem_model import ClientMemModel
 from components import layout
@@ -24,7 +25,11 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from loguru import logger
 
-app = dash.Dash(__name__, suppress_callback_exceptions=False)
+from settings import settings
+
+app = dash.Dash(
+    __name__, suppress_callback_exceptions=False, external_stylesheets=[dbc.themes.LUX]
+)
 
 app.layout = layout
 
@@ -47,7 +52,7 @@ def update_client_mem(n_clicks, function_val):
         raise PreventUpdate
     else:
         logger.debug("Updating client memory [12345]")
-        url = "https://attractors-service-c6dyl3tniq-uc.a.run.app/api/attractors/initial-conditions"
+        url = settings.backend_url + "/api/attractors/initial-conditions"
 
         response = requests.post(
             url, json={"function": function_val, "percent_empty": 0}
@@ -88,11 +93,13 @@ def update_initial_conditions(v0, v1, v2, v3, v4, v5, v6, v7):
 
 @app.callback(
     Output("output-gif-div", "children"),
+    Output("make-gif-btn", "disabled"),
     Input("make-gif-btn", "n_clicks"),
     State("function-dropdown", "value"),
+    State("color-dropdown", "value"),
     State("client-mem", "data"),
 )
-def update_output_div(n_clicks, function_val, client_mem_dict):
+def update_output_div(n_clicks, function_val, color_map_val, client_mem_dict):
     if n_clicks == 0 or n_clicks is None:
         raise PreventUpdate
     else:
@@ -100,22 +107,20 @@ def update_output_div(n_clicks, function_val, client_mem_dict):
         post_data = {
             "initial_conditions": client_mem.initial_conditions,
             "function": function_val,
-            "color_map": "fire",
+            "color_map": color_map_val,
         }
         logger.debug(f"Making gif post_data: {post_data}")
-        url = (
-            "https://attractors-service-c6dyl3tniq-uc.a.run.app/api/attractors/make-gif"
-        )
+        url = settings.backend_url + "/api/attractors/make-gif"
         response = requests.post(url, json=post_data)
         if response.status_code == 200:
             # Request was successful
             gif_data = base64.b64encode(response.content).decode()
             gif_data_url = f"data:image/gif;base64,{gif_data}"
-            return html.Img(src=gif_data_url)
+            return html.Img(src=gif_data_url, className="responsive-img"), False
 
         else:
             logger.error(f"Request failed with status code: {response.status_code}")
-            return html.Div(children=f"Request failed {response.status_code}")
+            return html.Div(children=f"Request failed {response.status_code}"), False
 
 
 if __name__ == "__main__":

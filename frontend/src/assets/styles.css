@@ -1,0 +1,6 @@
+@media (max-width: 500px) {
+    .responsive-img {
+        width: 100%;
+        height: auto;
+    }
+}
