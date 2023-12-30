@@ -78,3 +78,4 @@ To add an exception for this directory, call:
 
         git config --global --add safe.directory /workspaces/attractorsIII
 ```
+- doesnt open properly in codespace got an error on creations will check later at the airport on my ipad. not sure if it was the myxnetwork or i had an extra comma that broke it probably the latter as the error log didnt say much about the build arg its very slow probably need to give it more compute. could it be that its using my wifi to download packages i dont think so.
