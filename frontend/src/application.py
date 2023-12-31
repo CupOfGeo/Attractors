@@ -1,11 +1,12 @@
 import dash_bootstrap_components as dbc
-from dash import Dash
+from dash import Dash, html
 
+import src.frontend as frontend
+from src.backend_check import backend_check, backend_check_layout
 from src.components import layout
-from src.logging import configure_logging
 
 
-def get_app() -> Dash:
+def get_app():
     """
     Get dash application.
     """
@@ -18,7 +19,8 @@ def get_app() -> Dash:
         title="Attractors",
         update_title="Loading...",
     )
-    configure_logging()
-    app.layout = layout
-
-    return app
+    # configure_logging()
+    backend_check(app)
+    frontend.register_callbacks(app)
+    app.layout = html.Div([backend_check_layout, layout])
+    return app.server

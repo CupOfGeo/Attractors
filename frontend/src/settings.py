@@ -3,6 +3,7 @@ from pathlib import Path
 from tempfile import gettempdir
 
 from pydantic_settings import BaseSettings
+from yarl import URL
 
 TEMP_DIR = Path(gettempdir())
 
@@ -46,7 +47,7 @@ class Settings(BaseSettings):
 
     log_level: LogLevel = LogLevel.INFO
 
-    backend_url = "https://attractors-service-c6dyl3tniq-uc.a.run.app"
+    backend_url: URL = URL("https://attractors-service-c6dyl3tniq-uc.a.run.app")
 
     class Config:
         env_file = ".env"
