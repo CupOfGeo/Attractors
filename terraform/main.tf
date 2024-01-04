@@ -52,8 +52,13 @@ resource "google_cloud_run_service" "my_cloudrun_service" {
 }
 
 resource "google_cloud_run_service_iam_member" "public" {
-  service     = google_cloud_run_service.my_cloudrun_service.name
-  location    = google_cloud_run_service.my_cloudrun_service.location
-  role        = "roles/run.invoker"
-  member      = "allUsers"
+  service  = google_cloud_run_service.my_cloudrun_service.name
+  location = google_cloud_run_service.my_cloudrun_service.location
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
+
+module "frontend" {
+  source       = "./frontend"
+  ar_repo_name = google_artifact_registry_repository.my_ar_repo.name
 }

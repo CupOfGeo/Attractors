@@ -13,5 +13,6 @@
         "nopython",
         "noqa",
         "numba"
-    ]
+    ],
+    "python.REPL.enableREPLSmartSend": false
 }
