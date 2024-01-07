@@ -26,8 +26,8 @@ def trajectory_coords(fn, x0, y0, a, b=0, c=0, d=0, e=0, f=0, n: int = 10000000)
 
 
 class AttractorService:
-    def __init__(self):
-        self.n = 10000000
+    def __init__(self, n: int = 10000000):
+        self.n = n
 
     def trajectory(self, fn, x0, y0, a, b=0, c=0, d=0, e=0, f=0, n=10000000):
         x, y = trajectory_coords(fn, x0, y0, a, b, c, d, e, f, n)

@@ -104,7 +104,7 @@ def register_callbacks(app):  # noqa: C901
             url = settings.backend_url / "api/attractors/initial-conditions"
 
             response = requests.post(
-                url, json={"function": function_val, "percent_empty": 0}
+                url, json={"function": function_val, "percent_empty": 0}, timeout=30
             )
             if response.status_code == 200:
                 # Request was successful
@@ -158,7 +158,7 @@ def register_callbacks(app):  # noqa: C901
             }
             logger.debug(f"Making gif post_data: {post_data}")
             url = settings.backend_url / "api/attractors/make-gif"
-            response = requests.post(url, json=post_data)
+            response = requests.post(url, json=post_data, timeout=30)
             if response.status_code == 200:
                 # Request was successful
                 gif_data = base64.b64encode(response.content).decode()
