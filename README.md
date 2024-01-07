@@ -50,6 +50,11 @@ this will be solved when its just automatic with the ci/cd pipeline thats totall
 
 - wow that was kinda super easy like i did it in under an hour service account artifact registry public cloud run and all (thanks copilot <3)
 
+- I never saved the terraform.tfstate
+    - `gsutils mb gs://geo-attractors-tf`
+    - added backend to main.tf then did a `terraform init`
+
+
 # Issues
 - Learn how to write tests
 - Terminal auto complete

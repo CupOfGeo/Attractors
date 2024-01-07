@@ -3,6 +3,14 @@ provider "google" {
   region  = "us-central1"
 }
 
+
+terraform {
+  backend "gcs" {
+    bucket = "geo-attractors-tfstate"
+    prefix = "terraform/state"
+  }
+}
+
 data "google_project" "current" {
   project_id = "geo-attractors"
 }
