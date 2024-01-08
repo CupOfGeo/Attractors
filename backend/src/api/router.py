@@ -1,5 +1,4 @@
 from fastapi.routing import APIRouter
-
 from src.api import attractors
 
 # Note main '/api' route is set in application along with manage/health and manage/prometheus

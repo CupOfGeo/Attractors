@@ -1,5 +1,4 @@
 import uvicorn
-
 from src.settings import settings
 
 

@@ -3,7 +3,6 @@ import sys
 from typing import Union
 
 from loguru import logger
-
 from src.settings import settings
 
 
