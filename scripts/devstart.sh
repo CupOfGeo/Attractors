@@ -4,6 +4,7 @@
 pip3 install --user -r requirements.txt
 
 sudo apt-get update
+pip install --upgrade pip
 
 pre-commit install
 
