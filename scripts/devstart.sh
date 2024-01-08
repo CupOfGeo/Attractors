@@ -3,6 +3,8 @@ pip3 install --user -r requirements.txt
 
 sudo apt-get update
 
+pre-commit install
+
 # GCP cli
 sudo apt-get install -y apt-transport-https ca-certificates gnupg curl sudo
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg

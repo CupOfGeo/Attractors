@@ -8,7 +8,6 @@ from aiocache import caches
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 from loguru import logger
-
 from src.api.attractors.attractor_functions import ATTRACTOR_FUNCTIONS
 from src.api.attractors.attractor_models import (
     AttractorRequestModel,
