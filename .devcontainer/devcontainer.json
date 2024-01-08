@@ -26,7 +26,11 @@
 		"vscode": {
 			"extensions": [
 				"streetsidesoftware.code-spell-checker"
-			]
+			],
+			"settings": {
+				"terminal.integrated.shell.linux": "/bin/zsh"
+			}
+
 		}
 	}
 

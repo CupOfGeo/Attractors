@@ -3,16 +3,15 @@ provider "google" {
   region  = "us-central1"
 }
 
+data "google_project" "current" {
+  project_id = "geo-attractors"
+}
 
 terraform {
   backend "gcs" {
     bucket = "geo-attractors-tfstate"
     prefix = "terraform/state"
   }
-}
-
-data "google_project" "current" {
-  project_id = "geo-attractors"
 }
 
 resource "google_artifact_registry_repository" "my_ar_repo" {
@@ -22,51 +21,26 @@ resource "google_artifact_registry_repository" "my_ar_repo" {
 }
 
 resource "google_project_iam_member" "artifact_registry_reader" {
-  project = "geo-attractors"
+  project = data.google_project.current.name
   role    = "roles/artifactregistry.reader"
   member  = "serviceAccount:service-${data.google_project.current.number}@serverless-robot-prod.iam.gserviceaccount.com"
 }
 
-resource "google_cloud_run_service" "my_cloudrun_service" {
-  name     = "attractors-service"
-  location = "us-central1"
 
-  template {
-    spec {
-      containers {
-        image = "us-central1-docker.pkg.dev/geo-attractors/${google_artifact_registry_repository.my_ar_repo.name}/attractors-fastapi:latest"
-        resources {
-          limits = {
-            cpu    = "1000m"
-            memory = "2Gi"
-          }
-        }
-        env {
-          name  = "MY_ENV_VAR"
-          value = "my-value"
-        }
-        ports {
-          container_port = 8080
-        }
-      }
-      timeout_seconds = 300
-    }
-  }
-
-  traffic {
-    percent         = 100
-    latest_revision = true
-  }
-}
-
-resource "google_cloud_run_service_iam_member" "public" {
-  service  = google_cloud_run_service.my_cloudrun_service.name
-  location = google_cloud_run_service.my_cloudrun_service.location
-  role     = "roles/run.invoker"
-  member   = "allUsers"
+module "backend" {
+  source           = "./cloudrun"
+  service_name     = "attractors-backend-service"
+  container_image  = "attractors-fastapi"
+  ar_repo_name     = google_artifact_registry_repository.my_ar_repo.name
+  ar_repo_location = google_artifact_registry_repository.my_ar_repo.location
+  is_public        = true
 }
 
 module "frontend" {
-  source       = "./frontend"
-  ar_repo_name = google_artifact_registry_repository.my_ar_repo.name
+  source           = "./cloudrun"
+  service_name     = "attractors-frontend-service"
+  container_image  = "attractors-frontend"
+  ar_repo_name     = google_artifact_registry_repository.my_ar_repo.name
+  ar_repo_location = google_artifact_registry_repository.my_ar_repo.location
+  is_public        = true
 }
