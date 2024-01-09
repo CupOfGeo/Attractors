@@ -28,3 +28,9 @@ variable "is_public" {
   type        = bool
   description = "Should the service be public"
 }
+
+variable "backend_url_env" {
+  type        = string
+  description = "The URL of the backend service"
+  default     = "None"
+}

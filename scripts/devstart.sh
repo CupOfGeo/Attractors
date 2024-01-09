@@ -26,3 +26,8 @@ sudo apt update && sudo apt install -y terraform
 # && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
 # && sudo apt update \
 # && sudo apt install gh -y
+
+# Brew ---Before uncommenting this will only go to bashrc ---
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/vscode/.bashrc
+#     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

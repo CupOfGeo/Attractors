@@ -44,7 +44,7 @@ Im now seeing in jit that it can do caching. But that wouldn't be helpful as my 
 
 - starting with cloud run made some terraform and some startup scripts
 had to send it to gcloud to build 1. on the m1 mac the build is strange and 2. can't build in the docker container
-`gcloud builds submit --tag "us-central1-docker.pkg.dev/geo-attractors/attractors/attractors-fastapi`
+`gcloud builds submit --tag "us-central1-docker.pkg.dev/geo-attractors/attractors/attractors-fastapi"`
 this will be solved when its just automatic with the ci/cd pipeline thats totally coming soon
 
 
@@ -84,3 +84,12 @@ To add an exception for this directory, call:
         git config --global --add safe.directory /workspaces/attractorsIII
 ```
 - doesn't open properly in code-space got an error on creations will check later at the airport on my ipad. not sure if it was the my network or i had an extra comma that broke it probably the latter as the error log didn't say much about the build arg its very slow probably need to give it more compute. could it be that its using my wifi to download packages I don't think so.
+
+
+# two services one repo
+each service will have its own venv and requirements.txt. But the requirements.txt in the root of this project will have all the dev dependencies need to run pre-commit hooks and any other project dependencies.
+
+```mermaid
+graph LR
+    A[Dash Frontend] <--> B[Backend FastAPI]
+```

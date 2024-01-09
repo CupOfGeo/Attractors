@@ -2,6 +2,7 @@ import enum
 from pathlib import Path
 from tempfile import gettempdir
 
+from pydantic import validator
 from pydantic_settings import BaseSettings
 from yarl import URL
 
@@ -47,7 +48,12 @@ class Settings(BaseSettings):
 
     log_level: LogLevel = LogLevel.INFO
 
-    backend_url: URL = URL("https://attractors-service-c6dyl3tniq-uc.a.run.app")
+    backend_url: URL = URL("https://attractors-backend-service-c6dyl3tniq-uc.a.run.app")
+
+    @validator("backend_url", pre=True)
+    def parse_backend_url(cls, value: str) -> URL:
+        """Parse backend url."""
+        return URL(value)
 
     class Config:
         env_file = ".env"

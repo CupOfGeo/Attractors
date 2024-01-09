@@ -15,8 +15,8 @@ resource "google_cloud_run_service" "cloudrun_service" {
           }
         }
         env {
-          name  = "MY_ENV_VAR"
-          value = "my-value"
+          name  = "APP_BACKEND_URL"
+          value = var.backend_url_env
         }
         ports {
           container_port = 8080
