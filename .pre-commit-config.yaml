@@ -54,3 +54,10 @@ repos:
     rev: v1.10.0
     hooks:
       - id: python-check-blanket-noqa
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.86.0
+    hooks:
+      - id: terraform_tflint
+      - id: terraform_fmt
+      - id: terraform_docs
