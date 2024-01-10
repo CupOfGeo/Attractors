@@ -1,7 +1,6 @@
 import dash_bootstrap_components as dbc
-from dash import Dash, html
-
 import src.frontend as frontend
+from dash import Dash, html
 from src.backend_check import backend_check, backend_check_layout
 from src.components import layout
 

@@ -2,7 +2,6 @@ import requests
 from dash import dcc, html
 from dash.dependencies import Input, Output
 from loguru import logger
-
 from src.settings import settings
 
 backend_check_layout = html.Div(

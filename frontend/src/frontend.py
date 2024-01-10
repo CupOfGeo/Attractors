@@ -5,7 +5,6 @@ from dash import html
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from loguru import logger
-
 from src.client_mem_model import ClientMemModel
 from src.settings import settings
 
