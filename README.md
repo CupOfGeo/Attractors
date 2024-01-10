@@ -100,7 +100,9 @@ graph LR
 [Here is the module I used](https://github.com/terraform-google-modules/terraform-google-github-actions-runners/blob/master/modules/gh-oidc/README.md
 )
 
-- two variables need to be set you get them after applying the terraform and then running `terraform output` and then use the value from the two outputs
+- need to enable IAM Service Account Credentials API
+
+- two variables need to be set you get them after applying the terraform and then running `terraform output` and then use the value from the outputs
 `gh_federation_provider_name and gh_federation_sa_email`
 ```bash
 gh secret set WIF_PROVIDER -b"gh_federation_provider_name"
