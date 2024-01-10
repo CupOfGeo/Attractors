@@ -36,8 +36,7 @@ module "oidc" {
   sa_mapping = {
     (google_service_account.sa.account_id) = {
       sa_name   = google_service_account.sa.name
-      # Note this is the Attractors repo in my CupOfGeo user
-      attribute = "attribute.repository/CupOfGeo/Attractors"
+      attribute = "attribute.repository/${var.github_org}/${var.github_repo}"
     }
   }
 }

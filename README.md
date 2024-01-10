@@ -93,3 +93,16 @@ each service will have its own venv and requirements.txt. But the requirements.t
 graph LR
     A[Dash Frontend] <--> B[Backend FastAPI]
 ```
+
+
+# GH workload federation stuff
+
+[Here is the module I used](https://github.com/terraform-google-modules/terraform-google-github-actions-runners/blob/master/modules/gh-oidc/README.md
+)
+
+- two variables need to be set you get them after applying the terraform and then running `terraform output` and then use the value from the two outputs
+`gh_federation_provider_name and gh_federation_sa_email`
+```bash
+gh secret set WIF_PROVIDER -b"gh_federation_provider_name"
+gh secret set WIF_SERVICE_ACCOUNT -b"gh_federation_sa_email"
+```

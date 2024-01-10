@@ -46,8 +46,20 @@ module "frontend" {
   is_public        = true
 }
 
-# https://github.com/terraform-google-modules/terraform-google-github-actions-runners/blob/master/modules/gh-oidc/README.md
 module "gh-federation" {
   source  = "./gh-id-federation"
   project_id  = data.google_project.current.name
+  github_org = "CupOfGeo"
+  github_repo = "Attractors"
+}
+
+
+output "gh_federation_provider_name" {
+  description = "Provider name from gh-federation module"
+  value       = module.gh-federation.provider_name
+}
+
+output "gh_federation_sa_email" {
+  description = "Service account email from gh-federation module"
+  value       = module.gh-federation.sa_email
 }

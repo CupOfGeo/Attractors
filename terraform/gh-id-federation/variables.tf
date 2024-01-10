@@ -18,3 +18,13 @@ variable "project_id" {
   type        = string
   description = "The project id to create WIF pool and example SA"
 }
+
+variable "github_repo" {
+  type        = string
+  description = "The name of the repo"
+}
+
+variable "github_org" {
+  type        = string
+  description = "The org or user the github repo is under"
+}
