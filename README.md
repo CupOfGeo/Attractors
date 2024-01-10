@@ -44,7 +44,7 @@ Im now seeing in jit that it can do caching. But that wouldn't be helpful as my 
 
 - starting with cloud run made some terraform and some startup scripts
 had to send it to gcloud to build 1. on the m1 mac the build is strange and 2. can't build in the docker container
-`gcloud builds submit --tag "us-central1-docker.pkg.dev/geo-attractors/attractors/attractors-fastapi"`
+`gcloud builds submit --tag "us-central1-docker.pkg.dev/geo-attractors/attractors/attractors-backend"`
 this will be solved when its just automatic with the ci/cd pipeline thats totally coming soon
 
 

@@ -30,13 +30,11 @@ resource "google_project_iam_member" "artifact_registry_reader" {
 module "backend" {
   source           = "./cloudrun"
   service_name     = "attractors-backend-service"
-  container_image  = "attractors-fastapi"
+  container_image  = "attractors-backend"
   ar_repo_name     = google_artifact_registry_repository.my_ar_repo.name
   ar_repo_location = google_artifact_registry_repository.my_ar_repo.location
   is_public        = true
 }
-
-
 
 module "frontend" {
   source           = "./cloudrun"
@@ -46,4 +44,10 @@ module "frontend" {
   ar_repo_name     = google_artifact_registry_repository.my_ar_repo.name
   ar_repo_location = google_artifact_registry_repository.my_ar_repo.location
   is_public        = true
+}
+
+# https://github.com/terraform-google-modules/terraform-google-github-actions-runners/blob/master/modules/gh-oidc/README.md
+module "gh-federation" {
+  source  = "./gh-id-federation"
+  project_id  = data.google_project.current.name
 }
