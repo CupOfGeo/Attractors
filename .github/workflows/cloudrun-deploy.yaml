@@ -83,13 +83,13 @@ jobs:
       - name: Build and Push Backend
         run: |-
           cd backend/
-          docker build --target prod -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/attractors-backend:latest" ./
+          docker build --target BUILD -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/attractors-backend:latest" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/attractors-backend:latest"
 
       - name: Build and Push Frontend
         run: |-
           cd frontend/
-          docker build --target prod -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/attractors-frontend:latest" ./
+          docker build --target BUILD -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/attractors-frontend:latest" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/attractors-frontend:latest"
 
       # END - Docker auth and build

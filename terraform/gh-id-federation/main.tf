@@ -20,6 +20,12 @@ resource "google_service_account" "sa" {
   account_id = "gh-federation-sa"
 }
 
+resource "google_project_iam_member" "artifact_registry_writer" {
+  project = var.project_id
+  role    = "roles/artifactregistry.writer"
+  member  = "serviceAccount:${google_service_account.sa.email}"
+}
+
 resource "google_project_iam_member" "project" {
   project = var.project_id
   role    = "roles/storage.admin"
