@@ -26,6 +26,12 @@ resource "google_project_iam_member" "artifact_registry_writer" {
   member  = "serviceAccount:${google_service_account.sa.email}"
 }
 
+resource "google_project_iam_member" "cloud_run_admin" {
+  project = var.project_id
+  role    = "roles/run.admin"
+  member  = "serviceAccount:${google_service_account.sa.email}"
+}
+
 resource "google_project_iam_member" "project" {
   project = var.project_id
   role    = "roles/storage.admin"

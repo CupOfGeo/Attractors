@@ -47,9 +47,9 @@ module "frontend" {
 }
 
 module "gh-federation" {
-  source  = "./gh-id-federation"
+  source      = "./gh-id-federation"
   project_id  = data.google_project.current.name
-  github_org = "CupOfGeo"
+  github_org  = "CupOfGeo"
   github_repo = "Attractors"
 }
 

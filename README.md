@@ -11,7 +11,7 @@ so im now in a clean 3.11 dev container :) I have a bash terminal
 
 Cool so i updated my pre-commit hooks as well
 
-Im running without a venv bc im already in a clean room
+Im running without a venv bc im already in a clean room. This is great now I can install all my dev dependencies and then make a clean .venv with only whats needed to deploy.
 
 # Redis
 Idea to add some sort of caching for the attractors so if i want to recolor it i can pull the initial conditions from a cache
