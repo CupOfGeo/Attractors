@@ -32,6 +32,12 @@ resource "google_project_iam_member" "cloud_run_admin" {
   member  = "serviceAccount:${google_service_account.sa.email}"
 }
 
+resource "google_project_iam_member" "service_account_user" {
+  project = var.project_id
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${google_service_account.sa.email}"
+}
+
 resource "google_project_iam_member" "project" {
   project = var.project_id
   role    = "roles/storage.admin"
