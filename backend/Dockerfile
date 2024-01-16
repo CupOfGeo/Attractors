@@ -1,5 +1,5 @@
-### PROD ###
-FROM python:3.11-slim-buster as prod
+### BUILD ###
+FROM python:3.11-slim-buster as BUILD
 RUN apt-get update
 # Set the working directory to /app
 WORKDIR /app

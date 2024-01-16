@@ -5,10 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "FastAPI",
+            "name": "Dash Frontend",
             "type": "python",
             "request": "launch",
             "module": "src",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/frontend",
+            "python": "${workspaceFolder}/frontend/.venv-front/bin/python"
+        },
+        {
+            "name": "FastAPI",
+            "type": "python",
+            "request": "launch",
+            "module": "backend/src",
             "justMyCode": true
         }
     ]

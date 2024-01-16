@@ -36,8 +36,9 @@ class AttractorService:
     def gen_random(self, func, desired_empty=10000):
         # finds some nice  initial conditions
         non_empty = 0
+        tries = 0
         # how many non empty pixels
-        while non_empty < desired_empty:
+        while non_empty < desired_empty or tries <= 10:
             initial_conditions = np.c_[
                 np.zeros((1, 2)), np.random.random((1, 6)) * 4 - 2
             ][0]
@@ -48,6 +49,7 @@ class AttractorService:
             agg = cvs.points(df, "x", "y")
             non_empty = np.count_nonzero(np.array(agg))
             logger.info(f"non_empty: {non_empty}")
+            tries += 1
         return initial_conditions
 
     def make_dataframe(

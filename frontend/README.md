@@ -11,4 +11,4 @@ TODO
 
 So dash uses flask for its server backend so it uses gunicorn which is a WSGI (Web server gateway interface) and wont work with uvicorn a ASGI (async server gateway interface)
 
-gcloud builds submit --tag "us-central1-docker.pkg.dev/geo-attractors/attractors/attractors-frontend"
+gcloud builds submit --tag "us-central1-docker.pkg.dev/geo-attractors/attractors/attractors-frontend" --ignore-file .dockerignore

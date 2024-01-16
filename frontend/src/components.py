@@ -17,8 +17,14 @@ function_dropdown = dcc.Dropdown(
     id="function-dropdown",
     options=[
         {"label": "Clifford", "value": "Clifford"},
-        {"label": "De Jong", "value": "de_jong"},
-        {"label": "Bedhead", "value": "bedhead"},
+        {"label": "De Jong", "value": "De Jong"},
+        {"label": "Svensson", "value": "Svensson"},
+        {"label": "Fractal Dream", "value": "Fractal Dream"},
+        {"label": "Bedhead", "value": "Bedhead"},
+        {"label": "HopaLong", "value": "Hopalong"},
+        {"label": "HopaLong2", "value": "Hopalong2"},
+        {"label": "Gumowski Mira", "value": "Gumowski Mira"},
+        {"label": "Symmetric Icon", "values": "Symmetric Icon"},
     ],
     value="Clifford",
 )
