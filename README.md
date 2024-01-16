@@ -14,9 +14,9 @@ so im now in a clean 3.11 dev container :) I have a bash terminal
 Cool so i updated my pre-commit hooks as well
 
 Im running without a venv bc im already in a clean room. This is great now I can install all my dev dependencies and then make a clean .venv with only whats needed to deploy.
+
 ## Issues
-- Learn how to write tests
-- Terminal auto complete
+- How can i set the default shell to zsh? it is an option
 - Can't build or run Dockerfile in the container.
 possibly I could pass the local machines docker into the container
 ```bash
