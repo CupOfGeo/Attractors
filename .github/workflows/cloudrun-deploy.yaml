@@ -44,8 +44,8 @@
 name: Build and Deploy to Cloud Run
 
 on:
-  push #:
-    # branches: [ main ]
+  push:
+    branches: [ main ]
 
 env:
   PROJECT_ID: "geo-attractors"
